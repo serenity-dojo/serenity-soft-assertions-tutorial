@@ -1,5 +1,19 @@
 Feature: Sample asserts
 
+  Scenario: Screenplay asserts with AssertJ
+  With AssertJ soft asserts, the assertion message appears at the end
+    Given Sophie has the following colours:
+      | red   |
+      | green |
+      | blue  |
+    When she checks the colors
+    Then she ensures the following colors are present:
+      | red    |
+      | purple |
+      | blue   |
+      | yellow |
+      | green  |
+
   Scenario: Soft asserts with AssertJ
   With AssertJ soft asserts, the assertion message appears at the end
     Given Sophie has the following colours:
@@ -42,6 +56,7 @@ Feature: Sample asserts
       | blue   |
       | yellow |
       | green  |
+    And she should proceed to the next step if the color is found
 
   @multistep
   Scenario: Serenity soft asserts across several steps
@@ -113,14 +128,31 @@ Feature: Sample asserts
       | yellow |
       | green  |
 
-    @current
-  Scenario Outline: Simple nested screenplay assertions in a data-driven test
+  Scenario Outline: Nested screenplay assertions in a data-driven test
     Given Sophie has the following colours:
       | red   |
       | green |
       | blue  |
     When she checks the colors
     Then she should see the nested color <color>
+    And she should proceed to the next step if the color is found
+    Examples:
+      | color  |
+      | red    |
+      | purple |
+      | blue   |
+      | pink   |
+      | yellow |
+      | green  |
+
+  @current
+  Scenario Outline: Nested step assertions in a data-driven test
+    Given Sophie has the following colours:
+      | red   |
+      | green |
+      | blue  |
+    When she checks the colors
+    Then she should see the step color <color>
     And she should proceed to the next step if the color is found
     Examples:
       | color  |

@@ -6,6 +6,7 @@ import net.serenitybdd.screenplay.Actor;
 import net.serenitybdd.screenplay.ensure.Ensure;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 
@@ -13,6 +14,7 @@ import java.util.Arrays;
 import java.util.List;
 
 @ExtendWith(SerenityJUnit5Extension.class)
+@DisplayName("Soft Assertions with Screenplay Ensure and hooks")
 public class SoftAssertsWithScreenplayAndBeforeEachTest {
 
     @BeforeEach
@@ -29,7 +31,7 @@ public class SoftAssertsWithScreenplayAndBeforeEachTest {
      * to perform assertions in the same style as AssertJ
      */
     @Test
-    // WORKS AS EXPECTED
+    @DisplayName("When using Ensure, each assertion is a step that passes or fails")
     void screenplayAssertsUsingEnsureAndBeforeAfter() {
         List<String> colors = Arrays.asList("red","green","blue");
 

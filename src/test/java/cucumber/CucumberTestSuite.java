@@ -11,8 +11,7 @@ import static io.cucumber.junit.platform.engine.Constants.FILTER_TAGS_PROPERTY_N
 @Suite
 @IncludeEngines("cucumber")
 @SelectClasspathResource("/features")
-@ConfigurationParameter(key = PLUGIN_PROPERTY_NAME, value = "io.cucumber.core.plugin.SerenityReporter,pretty,timeline:build/test-results/timeline")
 //@ConfigurationParameter(key = FILTER_TAGS_PROPERTY_NAME, value = "@current")
-//@ConfigurationParameter(key = PLUGIN_PROPERTY_NAME, value = "io.cucumber.core.plugin.SerenityReporterParallel,pretty,timeline:build/test-results/timeline")
+@ConfigurationParameter(key = PLUGIN_PROPERTY_NAME, value = "io.cucumber.core.plugin.SerenityReporterParallel,pretty,timeline:build/test-results/timeline")
 public class CucumberTestSuite {
 }

@@ -6,15 +6,18 @@ import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
+import kotlin.jvm.functions.Function1;
 import net.serenitybdd.annotations.Step;
 import net.serenitybdd.annotations.Steps;
 import net.serenitybdd.screenplay.Actor;
 import net.serenitybdd.screenplay.Performable;
 import net.serenitybdd.screenplay.Task;
 import net.serenitybdd.screenplay.ensure.Ensure;
+import net.serenitybdd.screenplay.ensure.PerformableExpectation;
 import org.assertj.core.api.Assertions;
 import org.assertj.core.api.SoftAssertions;
 
+import java.util.Collection;
 import java.util.List;
 
 import static net.serenitybdd.screenplay.actors.OnStage.theActorInTheSpotlight;
@@ -33,6 +36,10 @@ public class AssertionsStepDefinitions {
     }
 
     List<String> actualColors;
+
+    @Given("the scenario has started")
+    public void scenarioHasStarted() {
+    }
 
     @Given("{actor} has the following colours:")
     public void sophieHasTheFollowingColours(Actor actor, List<String> colors) {
@@ -87,6 +94,16 @@ public class AssertionsStepDefinitions {
 
     SoftAssertions softly;
 
+    @Then("{actor} ensures the following colors are present:")
+    public void ensureTheFollowingColorsArePresent(Actor actor, List<String> expectedColors) {
+        Performable[] ensureThatEachColorIsIncluded = expectedColors.stream()
+                .map(color -> Ensure.that(actualColors).contains(color))
+                .toList()
+                .toArray(new Performable[]{});
+
+        actor.attemptsTo(ensureThatEachColorIsIncluded);
+    }
+
     @Then("the following colors are present:")
     public void theFollowingColorsArePresent(List<String> expectedColors) {
         softly = new SoftAssertions();
@@ -119,6 +136,11 @@ public class AssertionsStepDefinitions {
     @Then("{actor} should see the nested color {}")
     public void sheShouldSeeTheNestedColor(Actor actor, String color) {
         actor.attemptsTo(checkTheColor(color, actualColors));
+    }
+
+    @Then("{actor} should see the step color {}")
+    public void sheShouldSeeTheStepColor(Actor actor, String color) {
+        colorChecks.checkColor(color, actualColors);
     }
 
     @Then("{actor} should see that the nested color is {}")
