@@ -35,6 +35,19 @@ public class AssertionsStepDefinitions {
         Ensure.reportSoftAssertions();
     }
 
+    SoftAssertions softly;
+
+    @Before("@assertj")
+    public void enableAssertJSoftAsserts() {
+        softly = new SoftAssertions();
+        colorChecks.setSoftly(softly);
+    }
+
+    @After("@assertj")
+    public void reportAssertJSoftAsserts() {
+        softly.assertAll();
+    }
+
     List<String> actualColors;
 
     @Given("the scenario has started")
@@ -66,6 +79,20 @@ public class AssertionsStepDefinitions {
         );
     }
 
+    @Then("{actor} should see each of the following colors:")
+    public void theFollowingColorsMusBeVisible(Actor actor, List<String> expectedColors) {
+        expectedColors.forEach(
+                color -> colorChecks.softlyCheckColor(color, actualColors)
+        );
+    }
+
+    @Then("{actor} should see each one of the following colors:")
+    public void theFollowingColorsShouldAllBeVisible(Actor actor, List<String> expectedColors) {
+        expectedColors.forEach(
+                color -> colorChecks.checkColor(color, actualColors)
+        );
+    }
+
     @Then("{actor} should see the following colors in nested checks:")
     public void theFollowingColorsShouldBePresentInDepth(Actor actor, List<String> expectedColors) {
         Ensure.enableSoftAssertions();
@@ -91,8 +118,6 @@ public class AssertionsStepDefinitions {
                 Ensure.that(actualColors).contains(color)
         );
     }
-
-    SoftAssertions softly;
 
     @Then("{actor} ensures the following colors are present:")
     public void ensureTheFollowingColorsArePresent(Actor actor, List<String> expectedColors) {
@@ -149,9 +174,21 @@ public class AssertionsStepDefinitions {
     }
 
     public static class ColorChecks {
+
+        SoftAssertions softly;
+
+        public void setSoftly(SoftAssertions softly) {
+            this.softly = softly;
+        }
+
         @Step
         public void checkColor(String color, List<String> actualColors) {
             Assertions.assertThat(actualColors).contains(color);
+        }
+
+        @Step
+        public void softlyCheckColor(String color, List<String> actualColors) {
+            softly.assertThat(actualColors).contains(color);
         }
     }
 

@@ -29,7 +29,7 @@ Feature: Sample asserts
       | green  |
 
   Scenario: Serenity soft asserts
-  With Serenity soft asserts using the Ensure library, the assertion failures appear in each step
+    With Serenity soft asserts using the Ensure library, the assertion failures appear in each step
     Given Sophie has the following colours:
       | red   |
       | green |
@@ -60,7 +60,9 @@ Feature: Sample asserts
 
   @multistep
   Scenario: Serenity soft asserts across several steps
-  We can also have soft asserts work across multiple steps using @Before and @After hooks
+
+  You can make soft asserts work across multiple steps using @Before and @After hooks
+
     Given Sophie has the following colours:
       | red   |
       | green |
@@ -71,6 +73,25 @@ Feature: Sample asserts
       | purple |
       | blue   |
     And she should see all the following colors:
+      | pink   |
+      | yellow |
+      | green  |
+
+  @assertj
+  Scenario: AssertJ soft asserts across several steps
+  You can make soft asserts work across multiple steps using @Before and @After hooks with AssertJ
+  In this case, the assertion errors will be reported the end of the test
+
+    Given Sophie has the following colours:
+      | red   |
+      | green |
+      | blue  |
+    When she checks the colors
+    Then she should see each of the following colors:
+      | red    |
+      | purple |
+      | blue   |
+    And she should see each of the following colors:
       | pink   |
       | yellow |
       | green  |

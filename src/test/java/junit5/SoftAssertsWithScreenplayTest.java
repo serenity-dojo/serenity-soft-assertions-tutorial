@@ -53,11 +53,11 @@ public class SoftAssertsWithScreenplayTest {
 
         Ensure.enableSoftAssertions();
         sophie.attemptsTo(
-                ensureThatEachColorIsIncludedFrom(colors,"red"),
-                ensureThatEachColorIsIncludedFrom(colors,"yellow"),
-                ensureThatEachColorIsIncludedFrom(colors,"blue"),
-                ensureThatEachColorIsIncludedFrom(colors,"orange"),
-                ensureThatEachColorIsIncludedFrom(colors,"green")
+                Ensure.that(colors).contains("red"),
+                Ensure.that(colors).contains("yellow"),
+                Ensure.that(colors).contains("blue"),
+                Ensure.that(colors).contains("orange"),
+                Ensure.that(colors).contains("green")
         );
         Ensure.reportSoftAssertions();
     }
