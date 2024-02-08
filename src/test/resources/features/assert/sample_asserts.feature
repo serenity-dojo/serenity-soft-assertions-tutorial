@@ -115,6 +115,25 @@ Feature: Sample asserts
       | yellow |
       | green  |
 
+  Scenario Outline: Serenity asserts and errors in a data-driven test
+  Soft asserts are not required for data-driven tests
+    Given Sophie has the following colours:
+      | red   |
+      | green |
+      | blue  |
+    When she checks the colors
+    Then she should see all the following colors:
+      | <color> |
+    And she should proceed to the next step if the color is found
+    Examples:
+      | color  |
+      | red    |
+      | purple |
+      | blue   |
+      | error   |
+      | yellow |
+      | green  |
+
   Scenario Outline: Simple assertions in a data-driven test
     Given Sophie has the following colours:
       | red   |
@@ -129,6 +148,23 @@ Feature: Sample asserts
       | purple |
       | blue   |
       | pink   |
+      | yellow |
+      | green  |
+
+  Scenario Outline: Simple assertions and errors in a data-driven test
+    Given Sophie has the following colours:
+      | red   |
+      | green |
+      | blue  |
+    When she checks the colors
+    Then she should see the color <color>
+    And she should proceed to the next step if the color is found
+    Examples:
+      | color  |
+      | red    |
+      | purple |
+      | blue   |
+      | error   |
       | yellow |
       | green  |
 
@@ -166,6 +202,22 @@ Feature: Sample asserts
       | yellow |
       | green  |
 
+  Scenario Outline: Nested screenplay assertions and errors in a data-driven test
+    Given Sophie has the following colours:
+      | red   |
+      | green |
+      | blue  |
+    When she checks the colors
+    Then she should see the nested color <color>
+    And she should proceed to the next step if the color is found
+    Examples:
+      | color  |
+      | red    |
+      | purple |
+      | blue   |
+      | error   |
+      | yellow |
+      | green  |
   @current
   Scenario Outline: Nested step assertions in a data-driven test
     Given Sophie has the following colours:

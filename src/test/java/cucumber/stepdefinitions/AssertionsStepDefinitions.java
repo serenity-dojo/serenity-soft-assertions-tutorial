@@ -75,7 +75,12 @@ public class AssertionsStepDefinitions {
     @Then("{actor} should see all the following colors:")
     public void theFollowingColorsShouldBeVisible(Actor actor, List<String> expectedColors) {
         expectedColors.forEach(
-                color -> actor.attemptsTo(Ensure.that(actualColors).contains(color))
+                color -> {
+                    if (color.equalsIgnoreCase("error")) {
+                        throw new IllegalStateException("Unknown color");
+                    }
+                    actor.attemptsTo(Ensure.that(actualColors).contains(color));
+                }
         );
     }
 
@@ -115,7 +120,12 @@ public class AssertionsStepDefinitions {
 
     private Performable checkTheColor(String color, List<String> actualColors) {
         return Task.where("{0} inspects the color",
-                Ensure.that(actualColors).contains(color)
+                actor -> {
+                    if (color.equalsIgnoreCase("error")) {
+                        throw new IllegalStateException("Unknown color");
+                    }
+                    Ensure.that(actualColors).contains(color);
+                }
         );
     }
 
@@ -155,6 +165,9 @@ public class AssertionsStepDefinitions {
 
     @Then("{actor} should see the color {}")
     public void sheShouldSeeTheColor(Actor actor, String color) {
+        if (color.equalsIgnoreCase("error")) {
+            throw new IllegalStateException("Unexpected color");
+        }
         Assertions.assertThat(actualColors).contains(color);
     }
 
