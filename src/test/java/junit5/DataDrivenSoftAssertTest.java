@@ -42,6 +42,7 @@ public class DataDrivenSoftAssertTest {
                     "red,green,blue | green",
                     "red,green,blue | orange",
                     "red,green,blue | blue",
+                    "red,green,blue | pink",
                     "red,green,blue | purple",
                     "red,green,blue | red"
             }
@@ -50,4 +51,29 @@ public class DataDrivenSoftAssertTest {
         List<String> colors = Splitter.on(",").splitToList(colorList);
         assertThat(colors).contains(expectedColor);
    }
+
+
+    /**
+     * JUnit 5 parameterised tests will always act like soft assertions.
+     * If one row fails, the others will still get executed.
+     */
+    @DisplayName("Basic AssertJ assertions in a data-driven test will execute all tests regardless of failures")
+    @ParameterizedTest
+    @CsvSource(delimiter = '|',
+            value = {
+                    "red,green,blue | green",
+                    "red,green,blue | orange",
+                    "red,green,blue | blue",
+                    "red,green,blue | error",
+                    "red,green,blue | purple",
+                    "red,green,blue | red"
+            }
+    )
+    void basicAssertJSoftAssertsWithErrors(String colorList, String expectedColor) {
+        List<String> colors = Splitter.on(",").splitToList(colorList);
+        if (expectedColor.equalsIgnoreCase("error")) {
+            throw new IllegalStateException("Unknown color");
+        }
+        assertThat(colors).contains(expectedColor);
+    }
 }
